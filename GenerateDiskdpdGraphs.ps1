@@ -3,9 +3,15 @@
     Delete the csv files that were processed
 #>
 
+# Full file name for disksdp_graph_generator.py
 [string]$python_file_py  = 'C:\GoogleDrive\Team\Pyton\disksdp_graph_generator.py';
+
+# Full file name for python.exe
 [string]$python_file_exe = 'C:\Program Files\Python\Python36\python.exe';
-[string]$path            = 'C:\GoogleDrive\Team\Pyton\';
+
+# Path to the folder containing the csv file(s)
+# Note that I had to use the -Recurse switch with Get-ChildItem due to the csv extension filter applied so the command will also return csv files from sub folders
+[string]$path            = 'C:\GoogleDrive\Team\PowerShell\Diskspd\Amazone\';
 
 #[System.Diagnostics.Process]::Start("C:\Program Files\Automated QA\TestExecute 8\Bin\TestExecute.exe", "C:\temp\TestProject1\TestProject1.pjs /run /exit /SilentMode")
 #[System.Diagnostics.Process]::Start($python_file_exe, "C:\GoogleDrive\Team\Pyton\disksdp_graph_generator.py /'C:\GoogleDrive\Team\Pyton\diskspd__ECAESQLEMTEST_E_Optane_NTFS_2048K_8K__20200402_1336.csv'")
@@ -13,8 +19,8 @@
 
 #[System.Diagnostics.Process]::Start($python_file_exe, "C:\GoogleDrive\Team\Pyton\disksdp_graph_generator.py C:\GoogleDrive\Team\Pyton\diskspd__ECAESQLEMTEST_E_Optane_NTFS_4K_8K__20200402_0259.csv")
 
-#$files = Get-ChildItem -Recurse $path -Include *.csv | Where-Object {$_.PSIsContainer -eq $False};
-$files = Get-ChildItem $path -Include *.csv | Where-Object {$_.PSIsContainer -eq $False};
+
+$files = Get-ChildItem $path -Include *.csv -Recurse | Where-Object {$_.PSIsContainer -eq $False};
 foreach($file in $files)
 {       
     try
@@ -42,7 +48,6 @@ foreach($file in $files)
     }    
     catch [Exception] 
     {
-        $exception = $_.Exception;
-        Write-Host -ForegroundColor Red $exception;                  
+        Throw;          
     }
 }
