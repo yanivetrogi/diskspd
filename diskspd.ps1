@@ -49,7 +49,16 @@
     .PARAMETER EntropySize
     Manual set entropy size
 
-    powershell.exe -file C:\GoogleDrive\Team\PowerShell\Diskspd\DiskSpdBatch_Modified.ps1 -time 30 -dataFile C:\temp\Diskspd\diskspdtest.dat -dataFileSize 1024M -outPath C:\temp\Diskspd -BlockSize 8k -DiskspdExe C:\temp\Diskspd -SplitIO N -AllowIdle Y EntropySize 1G
+    
+    powershell.exe -file C:\temp\diskspd\diskspd.ps1 -time 30 -dataFile E:\temp\diskspd\diskspdtest.dat -dataFileSize 1024M -outPath C:\temp\diskspd -BlockSize 4k     -diskdpdExe C:\temp\diskspd -SplitIO N -AllowIdle Y -EntropySize 1G
+    powershell.exe -file C:\temp\diskspd\diskspd.ps1 -time 30 -dataFile E:\temp\diskspd\diskspdtest.dat -dataFileSize 1024M -outPath C:\temp\diskspd -BlockSize 8k     -diskdpdExe C:\temp\diskspd -SplitIO N -AllowIdle Y -EntropySize 1G
+    powershell.exe -file C:\temp\diskspd\diskspd.ps1 -time 30 -dataFile E:\temp\diskspd\diskspdtest.dat -dataFileSize 1024M -outPath C:\temp\diskspd -BlockSize 64k    -diskdpdExe C:\temp\diskspd -SplitIO N -AllowIdle Y -EntropySize 1G
+    powershell.exe -file C:\temp\diskspd\diskspd.ps1 -time 30 -dataFile E:\temp\diskspd\diskspdtest.dat -dataFileSize 1024M -outPath C:\temp\diskspd -BlockSize 512k   -diskdpdExe C:\temp\diskspd -SplitIO N -AllowIdle Y -EntropySize 1G
+    powershell.exe -file C:\temp\diskspd\diskspd.ps1 -time 30 -dataFile E:\temp\diskspd\diskspdtest.dat -dataFileSize 1024M -outPath C:\temp\diskspd -BlockSize 1024k  -diskdpdExe C:\temp\diskspd -SplitIO N -AllowIdle Y -EntropySize 1G
+    powershell.exe -file C:\temp\diskspd\diskspd.ps1 -time 30 -dataFile E:\temp\diskspd\diskspdtest.dat -dataFileSize 1024M -outPath C:\temp\diskspd -BlockSize 2048k  -diskdpdExe C:\temp\diskspd -SplitIO N -AllowIdle Y -EntropySize 1G
+    powershell.exe -file C:\temp\diskspd\diskspd.ps1 -time 30 -dataFile E:\temp\diskspd\diskspdtest.dat -dataFileSize 1024M -outPath C:\temp\diskspd -BlockSize 4096k  -diskdpdExe C:\temp\diskspd -SplitIO N -AllowIdle Y -EntropySize 1G
+    powershell.exe -file C:\temp\diskspd\diskspd.ps1 -time 30 -dataFile E:\temp\diskspd\diskspdtest.dat -dataFileSize 1024M -outPath C:\temp\diskspd -BlockSize 8192k  -diskdpdExe C:\temp\diskspd -SplitIO N -AllowIdle Y -EntropySize 1G
+
 #>
 param( 
        [int]$time = 30
