@@ -11,21 +11,24 @@
 
 # Path to the folder containing the csv file(s)
 # Note that I had to use the -Recurse switch with Get-ChildItem due to the csv extension filter applied so the command will also return csv files from sub folders
-[string]$path            = "G:\My Drive\Team\Pyton\DXC\Reshut\ECAESQLWFS01\";
+[string]$path            = 'G:\My Drive\Team\Pyton\DXC\Reshut\ECAESQLWFS01\';
 
 $files = Get-ChildItem $path -Include *.csv -Recurse | Where-Object {$_.PSIsContainer -eq $False};
 foreach($file in $files)
 {       
     try
     {     
-        [string]$arguments = $python_file_py + " """ + $file.FullName + """";
-        Write-Host $arguments;    
+        [string]$arguments = """" + $python_file_py + """" + " """ + $file.FullName + """";
+        #Write-Host $arguments;    
     
         $Process = New-Object System.Diagnostics.Process;    
         $Process.StartInfo.FileName = $python_file_exe;
         $Process.StartInfo.UseShellExecute = $false;
         $Process.StartInfo.CreateNoWindow = $true;    
         $Process.StartInfo.Arguments = $arguments;
+        
+        Write-Host $Process.StartInfo.Arguments
+
         $Process.StartInfo.RedirectStandardError = $true;
         $Process.StartInfo.RedirectStandardOutput = $true;
 	    $Process.Start() | Out-Null;   
