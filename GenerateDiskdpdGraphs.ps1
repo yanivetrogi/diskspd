@@ -1,17 +1,21 @@
 ﻿<#
     Execute the Python script file disksdp_graph_generator.py that accepts a csv file and outputs an xls file
     Delete the csv files that were processed
+
+    to install the python modules used by the python script use: 
+    C:\Program Files\Python\Python310\Scripts>pip install pandas
 #>
+
 
 # Full file name for disksdp_graph_generator.py
 [string]$python_file_py  = "G:\My Drive\Team\Pyton\disksdp_graph_generator.py";
 
 # Full file name for python.exe
-[string]$python_file_exe = 'C:\Program Files\Python\Python36\python.exe';
+[string]$python_file_exe = 'C:\Program Files\Python\Python310\python.exe';
 
 # Path to the folder containing the csv file(s)
 # Note that I had to use the -Recurse switch with Get-ChildItem due to the csv extension filter applied so the command will also return csv files from sub folders
-[string]$path            = 'G:\My Drive\Team\Pyton\DXC\Reshut\ECAESQLWFS01\';
+[string]$path            = 'G:\My Drive\Team\Pyton\AIG\20221006';
 
 $files = Get-ChildItem $path -Include *.csv -Recurse | Where-Object {$_.PSIsContainer -eq $False};
 foreach($file in $files)
@@ -41,6 +45,8 @@ foreach($file in $files)
     
         #Delete the file we processed
         #$file.Delete();   
+        [string]$destination_file_name = $file.FullName + '.processed';
+        $file.MoveTo($destination_file_name);
     }    
     catch [Exception] 
     {
