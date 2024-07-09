@@ -15,9 +15,9 @@
 
 # Path to the folder containing the csv file(s)
 # Note that I had to use the -Recurse switch with Get-ChildItem due to the csv extension filter applied so the command will also return csv files from sub folders
-[string]$path            = 'G:\My Drive\Team\Pyton\AIG\20221006';
+[string]$path            = "G:\My Drive\Team\Pyton\888\";
 
-$files = Get-ChildItem $path -Include *.csv -Recurse | Where-Object {$_.PSIsContainer -eq $False};
+$files = Get-ChildItem $path -File | Where-Object { $_.Name -like '*.csv' };
 foreach($file in $files)
 {       
     try
@@ -42,6 +42,9 @@ foreach($file in $files)
     
         Write-Host $standard_output -ForegroundColor Yellow;
         Write-Host $error_output -ForegroundColor Green; 
+
+        $Process.Close();
+        $Process.Dispose();
     
         #Delete the file we processed
         #$file.Delete();   
