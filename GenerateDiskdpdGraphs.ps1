@@ -11,11 +11,11 @@
 [string]$python_file_py  = "G:\My Drive\Team\Pyton\disksdp_graph_generator.py";
 
 # Full file name for python.exe
-[string]$python_file_exe = 'C:\Program Files\Python\Python310\python.exe';
+[string]$python_file_exe = 'C:\Program Files\Python\Python313\python.exe';
 
 # Path to the folder containing the csv file(s)
 # Note that I had to use the -Recurse switch with Get-ChildItem due to the csv extension filter applied so the command will also return csv files from sub folders
-[string]$path            = "G:\My Drive\Team\Pyton\888\";
+[string]$path            = "G:\My Drive\Team\Pyton\L1000124133";
 
 $files = Get-ChildItem $path -File | Where-Object { $_.Name -like '*.csv' };
 foreach($file in $files)
@@ -47,9 +47,12 @@ foreach($file in $files)
         $Process.Dispose();
     
         #Delete the file we processed
-        #$file.Delete();   
-        [string]$destination_file_name = $file.FullName + '.processed';
-        $file.MoveTo($destination_file_name);
+        #$file.Delete();  
+        if ([string]::IsNullOrEmpty( $error_output) )
+        {
+            [string]$destination_file_name = $file.FullName + '.processed';
+            $file.MoveTo($destination_file_name);
+        }
     }    
     catch [Exception] 
     {

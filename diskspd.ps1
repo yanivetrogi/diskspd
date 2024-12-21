@@ -60,30 +60,48 @@
     powershell.exe -file C:\temp\diskspd\diskspd.ps1 -time 30 -dataFile E:\temp\diskspd\diskspdtest.dat -dataFileSize 1024M -outPath C:\temp\diskspd -BlockSize 8192k  -diskdpdExe C:\temp\diskspd -SplitIO N -AllowIdle Y -EntropySize 1G
 
 #>
+
 param( 
-       [int]$time = 30
-      ,[string]$dataFile = ("E:\temp\Diskspd\diskspdtest.dat")
-      ,[string]$dataFileSize = "1024M"
-      ,[string]$outPath = "C:\temp\Diskspd"
-      ,[string]$BlockSize = "64K"
-      ,[string]$DiskspdExe = "C:\temp\Diskspd"
-      ,[string]$SplitIO = "N"
-      ,[string]$AllowIdle = "Y"
-      ,[string]$EntropySize = "1G"
-      )
+        [Parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$false, Position=0)] 
+        [int]$time = 30,
+
+        [Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$false, Position=1)] 
+        [string]$dataFile,
+
+        [Parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$false, Position=2)] 
+        [string]$dataFileSize = '1024M',
+
+        [Parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$false, Position=3)] 
+        [string]$outPath = 'C:\temp\Diskspd',
+
+        [Parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$false, Position=4)] 
+        [string]$BlockSize = '64K',
+
+        [Parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$false, Position=5)] 
+        [string]$DiskspdExe = 'C:\temp\Diskspd',
+
+        [Parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$false, Position=6)] 
+        [string]$SplitIO = "N",
+
+        [Parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$false, Position=7)] 
+        [string]$AllowIdle = "Y",
+
+        [Parameter(Mandatory=$false, ValueFromPipelineByPropertyName=$false, Position=8)] 
+        [string]$EntropySize = "1G"
+    )
 
 $ExecutionPolicy = Get-ExecutionPolicy
-if ($EscutionPolicy -ne 'RemoteSigned') {Set-ExecutionPolicy -ExecutionPolicy 'RemoteSigned'}
+if ($EscutionPolicy -ne 'RemoteSigned') {Set-ExecutionPolicy -ExecutionPolicy RemoteSigned; }
 
 
 if ($PSVersionTable.PSVersion.Major -lt 3) 
 {
-    Write-host "Error: This script requires Powershell Version 3 and above to run correctly" -ForegroundColor Red 
+    Write-host "Error: This script requires Powershell Version 3 and above to run correctly" -ForegroundColor Red;
     Return
     #[Environment]::Exit(1)
 } 
 
-Clear-Host
+#Clear-Host
 
 $datafiledir = split-path -path $dataFile
 $sArgs = @()
@@ -207,11 +225,11 @@ foreach ( $seqrand in $seqrandSet )
             #sequential or random - ignore -r flag if sequential
             if ( $seqrand -eq "s" ) 
             {
-               $rnd = "-si"
+                $rnd = "-si"
             } 
             else 
             {
-               $rnd = "-r"
+                $rnd = "-r"
             }
 
             Write-Progress -Activity "Executing DiskSpd Tests..." -Status "Executing Test $counter of $testCount" -PercentComplete ( ($counter / ($testCount)) * 100 )                        
@@ -246,8 +264,8 @@ foreach ( $seqrand in $seqrandSet )
 
             if ($AllowIdle -eq "Y") 
             {
-               # Pause to allow I/O idling   
-               Start-Sleep -Seconds 2;
+                # Pause to allow I/O idling   
+                Start-Sleep -Seconds 2;
             }
         }
     }
@@ -351,4 +369,3 @@ foreach($ts in $timespans)
 
 }
 $resultobj | Export-Csv -Path $csvfile -NoTypeInformation;
-
